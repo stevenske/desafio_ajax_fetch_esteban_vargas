@@ -33,16 +33,17 @@ stockTrips.push(rome, paris, amsterdam, greece, london, spain)
 const showProducts = ({ img, trip, desc, price, id }) => {
     let div = document.createElement('div')
     fetch(`http://api.weatherapi.com/v1/current.json?key=57530acc27d84266b02145938221008&q=${trip}&aqi=yes`)
-    .then(resp => resp.json() )
-    .then( data => {
-        console.log(data)
-        
-        div.className = '.product-rows col-md-4 d-flex justify-content-center my-3'
-        div.innerHTML += `
+        .then(resp => resp.json())
+        .then(data => {
+            console.log(data)
+            div.className = '.product-rows col-md-4 d-flex justify-content-center my-3'
+            div.innerHTML += `
         <div class="card text-center shadow-lg" style="width: 18rem;">
-        <div class='img_wrap zoom'>
-        <img src="${img}" class="card-img-top rounded" alt="photo of the Colosseum in Rome">
-        <p class='img_weather'>${data.current.feelslike_c}</p>
+        <div class='imgWrap zoom text-danger'>
+            <img src="${img}" class="card-img-top rounded" alt="photo of the Colosseum in Rome">
+            <p class='imgWeather'>${data.current.feelslike_c}°C<img src='${data.current.condition.icon}'>
+                <span>${data.current.condition.text}</span>
+            </p>
         </div>
         <div class="card-body">
         <p class="card-title fs-5">${trip}</p>
@@ -52,21 +53,21 @@ const showProducts = ({ img, trip, desc, price, id }) => {
         </div>
         </div>
         `
-        cardsContainer.appendChild(div)
-        let button = document.getElementById(`btn${id}`)
-        button.addEventListener("click", () => {
-            addCart(id)
-            Toastify({
-                text: `${trip} was added to the shopping Cart`,
-                className: "addedTrip",
-                position: 'center',
-                gravity: "top",
-            }).showToast()
+            cardsContainer.appendChild(div)
+            let button = document.getElementById(`btn${id}`)
+            button.addEventListener("click", () => {
+                addCart(id)
+                Toastify({
+                    text: `${trip} was added to the shopping Cart`,
+                    className: "addedTrip",
+                    position: 'center',
+                    gravity: "top",
+                }).showToast()
+            })
         })
-    })
-        function addCart(idArticle) {
-            let finded = stockTrips.find(article => article.id === idArticle)
-            if (finded) {
+    function addCart(idArticle) {
+        let finded = stockTrips.find(article => article.id === idArticle)
+        if (finded) {
             let productInCart = shoppingCart.find((article) => article.id === finded.id)
             if (productInCart) {
                 productInCart.quantityProd += 1
@@ -119,16 +120,58 @@ function updateCart() {
 }
 //----------------------------------------------------------
 
+
+//BUYCONFIRMATION-------------------------------------------
+
+function showBuyConfirmation(){
+    let modalBuyConfirmation = document.querySelector('.modal-dialog')
+    modalBuyConfirmation.innerHTML = `
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Complete this Contact Information to send the ticket reservation</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body container-fluid row d-flex">
+                                            <form class="row">
+                                                <div class="mb-3 col-6">
+                                                    <label for="recipient-name" class="col-form-label">Name:</label>
+                                                    <input type="text" class="form-control" id="name" placeholder="Name...">
+                                                </div>
+                                            
+                                                <div class="mb-3 col-6">
+                                                    <label for="recipient-name" class="col-form-label">LastName:</label>
+                                                    <input type="text" class="form-control" id="lastName" placeholder="LastName...">
+                                                </div>
+                                            
+                                                <div class="mb-3">
+                                                    <label for="recipient-name" class="col-form-label">Mail:</label>
+                                                    <input type="text" class="form-control" id="mail" placeholder="example@gmail.com">
+                                                </div>
+                                            
+                                                <div class="mb-3">
+                                                    <label for="recipient-name" class="col-form-label">Phone Number:</label>
+                                                    <input type="text" class="form-control" id="phone__number" placeholder="(555) 555-555">
+                                                </div>
+                                            </form>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-train">Confirm Buy</button>
+                                        </div>
+                                    </div>
+                                    `
+}
+//----------------------------------------------------------
+
 //TOTAL-----------------------------------------------------
 function showTotal() {
     totalContainer.className = 'mx-1 my-2 d-flex justify-content-between'
     totalContainer.innerHTML = `
                                     <p class='align-self-center border border-1 btn-train text-dark rounded-1 p-2'>Total Price:$${updateTotal()}</p>
-                                    <p><button id='emptyCart' type="submit" class="btn btn-train fw-bold py-1 px-3"><img src="./assets/img/clear-shopping-cart.png" class="card-img-top rounded zoom">
+                                    <p><button id='empty__Cart' type="submit" class="btn btn-train fw-bold py-1 px-3"><img src="./assets/img/clear-shopping-cart.png" class="card-img-top rounded zoom">
                                     </button></p>
-                                    <p><button type="submit" class="btn btn-train fw-bold py-2 px-4">BUY</button></p>
+                                    <p><button type="submit" id='btnBuy' data-bs-toggle="modal" data-bs-target="#modal__BuyConfirmation" class="btn btn-train fw-bold py-2 px-4">BUY</button></p>
 `
-    let btnEmptyCart = document.getElementById('emptyCart')
+    let btnEmptyCart = document.getElementById('empty__Cart')
     btnEmptyCart.addEventListener('click', () => {
         removeAll()
         Toastify({
@@ -137,6 +180,10 @@ function showTotal() {
             position: 'right',
             gravity: "top",
         }).showToast();
+    })
+    let btnBuy = document.getElementById('btnBuy')
+    btnBuy.addEventListener('click', () => {
+        showBuyConfirmation()
     })
 }
 
@@ -175,13 +222,6 @@ function removeAll() {
         showTotal()
     }
 }
-
-
-
-
-
-
-
 //----------------------------------------------------------
 
 //GET LOWEST TRIP PRICE-------------------------------------
