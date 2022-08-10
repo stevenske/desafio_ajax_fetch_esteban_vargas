@@ -29,34 +29,44 @@ spain = new StockTrips(6, 'Spain', 1600, 'Visit the Metropolitan Cathedral Basil
 stockTrips.push(rome, paris, amsterdam, greece, london, spain)
 //----------------------------------------------------------
 //SHOWPRODUCTS----------------------------------------------
+
 const showProducts = ({ img, trip, desc, price, id }) => {
     let div = document.createElement('div')
-    div.className = '.product-rows col-md-4 d-flex justify-content-center my-3'
-    div.innerHTML += `
-            <div class="card text-center shadow-lg" style="width: 18rem;">
-                <img src="${img}" class="card-img-top rounded zoom" alt="photo of the Colosseum in Rome">
-                <div class="card-body">
-                    <p class="card-title fs-5">${trip}</p>
-                    <p class="card-text">${desc}</p>
-                    <p class="card-text">$${price}</p>
-                    <button id="btn${id}" type="submit" class="btnBuy btn btn-train fw-bold"">Add to Cart</button>
-                </div>
-            </div>
-    `
-    cardsContainer.appendChild(div)
-    let button = document.getElementById(`btn${id}`)
-    button.addEventListener("click", () => {
-        addCart(id)
-        Toastify({
-            text: `${trip} was added to the shopping Cart`,
-            className: "addedTrip",
-            position: 'center',
-            gravity: "top",
-        }).showToast()
+    fetch(`http://api.weatherapi.com/v1/current.json?key=57530acc27d84266b02145938221008&q=${trip}&aqi=yes`)
+    .then(resp => resp.json() )
+    .then( data => {
+        console.log(data)
+        
+        div.className = '.product-rows col-md-4 d-flex justify-content-center my-3'
+        div.innerHTML += `
+        <div class="card text-center shadow-lg" style="width: 18rem;">
+        <div class='img_wrap zoom'>
+        <img src="${img}" class="card-img-top rounded" alt="photo of the Colosseum in Rome">
+        <p class='img_weather'>${data.current.feelslike_c}</p>
+        </div>
+        <div class="card-body">
+        <p class="card-title fs-5">${trip}</p>
+        <p class="card-text">${desc}</p>
+        <p class="card-text">$${price}</p>
+        <button id="btn${id}" type="submit" class="btnBuy btn btn-train fw-bold"">Add to Cart</button>
+        </div>
+        </div>
+        `
+        cardsContainer.appendChild(div)
+        let button = document.getElementById(`btn${id}`)
+        button.addEventListener("click", () => {
+            addCart(id)
+            Toastify({
+                text: `${trip} was added to the shopping Cart`,
+                className: "addedTrip",
+                position: 'center',
+                gravity: "top",
+            }).showToast()
+        })
     })
-    function addCart(idArticle) {
-        let finded = stockTrips.find(article => article.id === idArticle)
-        if (finded) {
+        function addCart(idArticle) {
+            let finded = stockTrips.find(article => article.id === idArticle)
+            if (finded) {
             let productInCart = shoppingCart.find((article) => article.id === finded.id)
             if (productInCart) {
                 productInCart.quantityProd += 1
@@ -66,7 +76,7 @@ const showProducts = ({ img, trip, desc, price, id }) => {
                 localStorage.setItem('shoppingTrips', JSON.stringify(shoppingCart))
             }
         }
-        console.log(shoppingCart)
+        // console.log(shoppingCart)
         showShoppingCart()
     }
 
@@ -165,6 +175,13 @@ function removeAll() {
         showTotal()
     }
 }
+
+
+
+
+
+
+
 //----------------------------------------------------------
 
 //GET LOWEST TRIP PRICE-------------------------------------

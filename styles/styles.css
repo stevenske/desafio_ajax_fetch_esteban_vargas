@@ -89,6 +89,24 @@ body {
   }
 }
 
+.img_wrap {
+  position: relative;
+}
+.img_wrap .img_weather {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.2s, visibility 0.2s;
+}
+
+.img_wrap:hover .img_weather {
+  visibility: visible;
+  opacity: 1;
+}
+
 #banner__countries {
   background-image: url(../assets/img/banner_countries.jpg);
   background-repeat: no-repeat;
