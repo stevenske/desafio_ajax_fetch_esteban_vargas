@@ -123,7 +123,7 @@ function updateCart() {
 
 //BUYCONFIRMATION-------------------------------------------
 
-function showBuyConfirmation(){
+function showBuyConfirmation() {
     let modalBuyConfirmation = document.querySelector('.modal-dialog')
     modalBuyConfirmation.innerHTML = `
                                     <div class="modal-content">
@@ -132,7 +132,7 @@ function showBuyConfirmation(){
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body container-fluid row d-flex">
-                                            <form class="row">
+                                            <form class="row" medthod="POST">
                                                 <div class="mb-3 col-md-6">
                                                     <label for="recipient-name" class="col-form-label">Name:</label>
                                                     <input type="text" class="form-control" id="name" placeholder="Name...">
@@ -152,13 +152,25 @@ function showBuyConfirmation(){
                                                     <label for="recipient-name" class="col-form-label">Phone Number:</label>
                                                     <input type="text" class="form-control" id="phone__number" placeholder="(555) 555-555">
                                                 </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" id="btn_confirmBuy" data-bs-dismiss="modal" class="btn btn-train">Confirm Buy</button>
+                                                </div>
                                             </form>
                                         </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-train">Confirm Buy</button>
-                                        </div>
-                                    </div>
                                     `
+    let btnConfirmBuy = document.getElementById('btn_confirmBuy')
+    btnConfirmBuy.addEventListener('click', () => {
+        let name = document.getElementById('name').value
+        removeAll()
+        Toastify({
+            text: `thanks ${name} for trust in TrainTrips your passage was sended yo your email`,
+            className: "alertConfirmation",
+            position: 'center',
+            gravity: "top",
+        }).showToast()
+
+    })
 }
 //----------------------------------------------------------
 
@@ -223,6 +235,7 @@ function removeAll() {
     }
 }
 //----------------------------------------------------------
+
 
 //GET LOWEST TRIP PRICE-------------------------------------
 
