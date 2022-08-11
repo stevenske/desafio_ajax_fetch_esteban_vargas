@@ -20,9 +20,9 @@ class StockTrips {
 }
 
 rome = new StockTrips(1, 'Rome', 2300, 'Visit the Colosseum in Rome with a direct train trip', 'assets/img/coliseo_rome.jpg', 1)
-paris = new StockTrips(2, 'Paris', 2400, 'Visit the Colosseum in Rome with a direct train trip', 'assets/img/paris.jpg', 1)
-amsterdam = new StockTrips(3, 'Amsterdam', 2100, 'Visit the Colosseum in Rome with a direct train trip', 'assets/img/amsterdam.jpg', 1)
-greece = new StockTrips(4, 'Greece', 2150, 'Visit the Colosseum in Rome with a direct train trip', 'assets/img/greece.jpg', 1)
+paris = new StockTrips(2, 'Paris', 2400, 'Visit the Louvre Pyramid in Paris with a direct train trip', 'assets/img/paris.jpg', 1)
+amsterdam = new StockTrips(3, 'Amsterdam', 2100, 'Visit Amsterdam with a direct train trip', 'assets/img/amsterdam.jpg', 1)
+greece = new StockTrips(4, 'Greece', 2150, 'Visit the beautiful island Santorini in Greece with a direct train trip and boat', 'assets/img/greece.jpg', 1)
 london = new StockTrips(5, 'London', 1800, 'Visit the Big Ben in London with a direct train trip', 'assets/img/london.jpg', 1)
 spain = new StockTrips(6, 'Spain', 1600, 'Visit the Metropolitan Cathedral Basilica of the Holy Cross and Saint Eulalia train trip', 'assets/img/spain.jpg', 1)
 
@@ -133,17 +133,17 @@ function showBuyConfirmation(){
                                         </div>
                                         <div class="modal-body container-fluid row d-flex">
                                             <form class="row">
-                                                <div class="mb-3 col-6">
+                                                <div class="mb-3 col-md-6">
                                                     <label for="recipient-name" class="col-form-label">Name:</label>
                                                     <input type="text" class="form-control" id="name" placeholder="Name...">
                                                 </div>
                                             
-                                                <div class="mb-3 col-6">
+                                                <div class="mb-3 col-md-6">
                                                     <label for="recipient-name" class="col-form-label">LastName:</label>
                                                     <input type="text" class="form-control" id="lastName" placeholder="LastName...">
                                                 </div>
                                             
-                                                <div class="mb-3">
+                                                <div class="mb-3 col-md-12">
                                                     <label for="recipient-name" class="col-form-label">Mail:</label>
                                                     <input type="text" class="form-control" id="mail" placeholder="example@gmail.com">
                                                 </div>
